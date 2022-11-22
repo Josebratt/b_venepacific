@@ -87,7 +87,7 @@ const updateProduct = async (req, res) => {
       folder: "Venepacific",
       resource_type: "image",
     });
-
+ 
     // result = {
     //   fileid: uploadeFile.public_id,
     //   filePath: uploadeFile.secure_url,
