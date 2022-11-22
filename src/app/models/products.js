@@ -16,18 +16,18 @@ const productSchema = mongoose.Schema(
     },
     cloudinary_id: {
       type: String,
-    }
-    // category: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "categories",
-    //   // required: false,
-    // },
-    // countInStock: {
-    //   type: Number,
-    //   // required: false,
-    //   min: 0,
-    //   max: 255,
-    // },
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "categories",
+      // required: false,
+    },
+    countInStock: {
+      type: Number,
+      // required: false,
+      min: 0,
+      max: 255,
+    },
   },
   {
     timestamps: true,
