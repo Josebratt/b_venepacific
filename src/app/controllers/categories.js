@@ -1,8 +1,13 @@
 const categoryModel = require("../models/categories");
 
+const options = {
+  page: 1,
+  limit: 7
+};
+
 /** Get All*/
 const getCategories = async (req, res) => {
-  const list = await categoryModel.find();
+  const list = await categoryModel.paginate({}, options);
   if (!list) {
     res.status(500).json({ success: false });
   }

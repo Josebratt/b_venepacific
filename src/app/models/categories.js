@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 const categorySchema = mongoose.Schema({
     name: {
         type: String,
@@ -16,5 +18,7 @@ categorySchema.virtual('id').get(function () {
 });
 
 categorySchema.set('toJSON', {virtuals: true});
+
+categorySchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('categories', categorySchema);
