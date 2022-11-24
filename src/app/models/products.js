@@ -4,11 +4,11 @@ const productSchema = mongoose.Schema(
   {
     sku: {
       type: String,
-      // required: false,
+      required: true,
     },
     name: {
       type: String,
-      // required: false,
+      required: true,
     },
     image: {
       type: String,
@@ -19,8 +19,8 @@ const productSchema = mongoose.Schema(
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "categories",
-      // required: false,
+      ref: "Category",
+      required: true,
     },
     countInStock: {
       type: Number,

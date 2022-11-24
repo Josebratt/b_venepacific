@@ -10,7 +10,7 @@ cloudinary.config({
 
 /** Get All*/
 const getProducts = async (req, res) => {
-  const list = await productModel.find();
+  const list = await productModel.find().populate('category');
   if (!list) {
     res.status(500).json({ success: false });
   }
@@ -19,7 +19,7 @@ const getProducts = async (req, res) => {
 
 /** getById */
 const getProduct = async (req, res) => {
-  const product = await productModel.findById(req.params.id);
+  const product = await productModel.findById(req.params.id).populate('category');
 
   if (!product) {
     res.status(404).json({ message: "El Id del producto no se ha encontrado" });
