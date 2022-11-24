@@ -22,12 +22,24 @@ const productSchema = mongoose.Schema(
       ref: "Category",
       required: true,
     },
+    brand: {
+      type: String,
+      default: "",
+    },
+    priceBuy: {
+      type: Number,
+      default: 0,
+    },
+    priceSell: {
+      type: Number,
+      default: 0,
+    },
     countInStock: {
       type: Number,
       // required: false,
       min: 0,
       max: 255,
-    },
+    }
   },
   {
     timestamps: true,

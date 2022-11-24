@@ -59,7 +59,10 @@ const createProduct = async (req, res) => {
     image: fileData.filePath,
     cloudinary_id: fileData.fileid,
     category: req.body.category,
-    countInStock: req.body.countInStock,
+    brand: req.body.brand,
+    priceBuy: req.body.priceBuy,
+    priceSell: req.body.priceSell,
+    countInStock: req.body.countInStock
   });
 
   product = product.save();
