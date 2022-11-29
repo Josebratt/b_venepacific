@@ -5,7 +5,7 @@ const {
   getCategory,
   createCategory,
   updateCategory,
-  deleteCategory,
+  deleteCategory
 } = require("../controllers/categories");
 
 /** get all categories */
