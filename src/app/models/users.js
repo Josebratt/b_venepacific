@@ -41,7 +41,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     }
-
+},
+{
+    timestamps: true,
+    versionKey: false
 });
 
 userSchema.virtual('id').get(function () {
