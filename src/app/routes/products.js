@@ -20,7 +20,7 @@ router.get("/:id", getProduct);
 router.post("/", upload.single("image"), createProduct);
 
 /** update Product */
-router.put("/:id", updateProduct);
+router.put("/:id", upload.single("image"), updateProduct);
 
 /** delete Product */
 router.delete("/:id", deleteProduct);

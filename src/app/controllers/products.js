@@ -10,7 +10,7 @@ cloudinary.config({
 
 /** Get All*/
 const getProducts = async (req, res) => {
-  const list = await productModel.find().populate('category');
+  const list = await productModel.find().populate("category");
   if (!list) {
     res.status(500).json({ success: false });
   }
@@ -19,7 +19,9 @@ const getProducts = async (req, res) => {
 
 /** getById */
 const getProduct = async (req, res) => {
-  const product = await productModel.findById(req.params.id).populate('category');
+  const product = await productModel
+    .findById(req.params.id)
+    .populate("category");
 
   if (!product) {
     res.status(404).json({ message: "El Id del producto no se ha encontrado" });
@@ -30,7 +32,7 @@ const getProduct = async (req, res) => {
 
 /** Create */
 const createProduct = async (req, res) => {
-  const category = categoryModel.findById(req.body.category);
+  const category = await categoryModel.findById(req.body.category);
 
   if (!category) {
     return res.status(400).send("categoria invalida");
@@ -62,10 +64,10 @@ const createProduct = async (req, res) => {
     brand: req.body.brand,
     priceBuy: req.body.priceBuy,
     priceSell: req.body.priceSell,
-    countInStock: req.body.countInStock
+    countInStock: req.body.countInStock,
   });
 
-  product = product.save();
+  product = await product.save();
 
   if (!product) return res.status(500).send("El producto no pudo ser creado");
 
@@ -74,19 +76,20 @@ const createProduct = async (req, res) => {
 
 /** Update */
 const updateProduct = async (req, res) => {
-  const category = categoryModel.findById(req.body.category);
-  const product = productModel.findById(req.params.id);
+  const category = await categoryModel.findById(req.body.category);
+  const product = await productModel.findById(req.params.id);
 
+  /** delete image in cloudinary */
+  await cloudinary.uploader.destroy(product.cloudinary_id);
+
+  
   if (!category) {
     return res.status(400).send("categoria invalida");
   }
 
-  /** delete image in cloudinary */
-  cloudinary.uploader.destroy(product.cloudinary_id);
-
   let fileData;
   if (req.file) {
-    fileData = cloudinary.uploader.upload(req.file.path, {
+    fileData = await cloudinary.uploader.upload(req.file.path, {
       folder: "Venepacific",
       resource_type: "image",
     });
@@ -113,9 +116,9 @@ const updateProduct = async (req, res) => {
 };
 
 /** Delete */
-const deleteProduct = async  (req, res) => {
+const deleteProduct = async (req, res) => {
   let product = await productModel.findById(req.params.id);
-  cloudinary.uploader.destroy(product.cloudinary_id);
+  await cloudinary.uploader.destroy(product.cloudinary_id);
 
   productModel
     .findByIdAndRemove(req.params.id)
@@ -140,5 +143,5 @@ module.exports = {
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };
