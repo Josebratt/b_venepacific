@@ -6,30 +6,30 @@ function authJwt() {
     return expressJwt({
         secret,
         algorithms: ["HS256"],
-        isRevoked: isRevokedCallback,
+        // isRevoked: isRevokedCallback,
     }).unless({
         path: [
-            { url: /\/api\/v1\/products(.*)/, methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] },
-            { url: /\/api\/v1\/categories(.*)/, methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] },
+            { url: /\/api\/v1\/products(.*)/, methods: ["GET", "OPTIONS"] },
+            { url: /\/api\/v1\/categories(.*)/, methods: ["GET", "OPTIONS"] },
             {
                 url: /\/api\/v1\/orders(.*)/,
-                methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                methods: ["GET", "POST", "OPTIONS"],
             },
-            {
-                url: /\/api\/v1\/users(.*)/,
-                methods: ["GET", "POST", "PUT", "OPTIONS"],
-            },
+            // {
+            //     url: /\/api\/v1\/users(.*)/,
+            //     methods: ["GET", "POST", "PUT", "OPTIONS"],
+            // },
             `${api}/users/login`,
             `${api}/users/register`,
         ],
     });
 }
 
-const isRevokedCallback = async (req, token) => {
-    const isAdmin = token.payload.isAdmin;
-    const tokenId = token.payload.jti;
-    const tokenUser = await data.getRevokedToken(isAdmin, tokenId);
-    return tokenUser !== "undefined";
-};
+// const isRevokedCallback = async (req, token) => {
+//     const isAdmin = token.payload.isAdmin;
+//     const tokenId = token.payload.jti;
+//     const tokenUser = await data.getRevokedToken(isAdmin, tokenId);
+//     return tokenUser !== "undefined";
+// };
 
 module.exports = authJwt;

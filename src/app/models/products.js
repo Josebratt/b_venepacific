@@ -39,7 +39,11 @@ const productSchema = mongoose.Schema(
       // required: false,
       min: 0,
       max: 255,
-    }
+    },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

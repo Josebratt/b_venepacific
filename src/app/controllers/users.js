@@ -23,7 +23,7 @@ const getUser = async (req, res) => {
 /** create User && register User */
 const createUser = async (req, res) => {
   let user = new userModel({
-    names: req.body.name,
+    firstNames: req.body.firstNames,
     lastNames: req.body.lastNames,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 10),
@@ -55,7 +55,7 @@ const updateUser = async (req, res) => {
   const user = await userModel.findByIdAndUpdate(
     req.params.id,
     {
-      names: req.body.names,
+      firstNames: req.body.firstNames,
       lastNames: req.body.lastNames,
       email: req.body.email,
       password: newPassword,

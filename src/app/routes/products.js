@@ -7,7 +7,8 @@ const {
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  featuredProducts
 } = require("../controllers/products");
 
 /** get all categories */
@@ -24,5 +25,8 @@ router.put("/:id", upload.single("image"), updateProduct);
 
 /** delete Product */
 router.delete("/:id", deleteProduct);
+
+/** featured Product */
+router.get("/featured/:count", featuredProducts)
 
 module.exports = router;

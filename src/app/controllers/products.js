@@ -65,6 +65,7 @@ const createProduct = async (req, res) => {
     priceBuy: req.body.priceBuy,
     priceSell: req.body.priceSell,
     countInStock: req.body.countInStock,
+    isFeatured: req.body.isFeatured
   });
 
   product = await product.save();
@@ -103,7 +104,9 @@ const updateProduct = async (req, res) => {
       cloudinary_id: fileData?.public_id || product.cloudinary_id,
       image: fileData?.secure_url || product.secure_url,
       category: req.body.category,
+      brand: req.body.brand,
       countInStock: req.body.countInStock,
+      isFeatured: req.body.isFeatured
     },
     { new: true }
   );
@@ -138,10 +141,22 @@ const deleteProduct = async (req, res) => {
     });
 };
 
+const featuredProducts = async (req, res) => {
+  const count = req.params.count ? req.params.count : 0;
+  const products = await productModel.find({ isFeatured: true}).limit(+count);
+
+  if (!products) {
+    res.status(500).json({ success: false });
+  }
+
+  res.send(products);
+}
+
 module.exports = {
   getProducts,
   getProduct,
   createProduct,
   updateProduct,
   deleteProduct,
+  featuredProducts
 };
