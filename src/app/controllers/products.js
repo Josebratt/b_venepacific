@@ -10,7 +10,12 @@ cloudinary.config({
 
 /** Get All*/
 const getProducts = async (req, res) => {
-  const list = await productModel.find().populate("category");
+  let filter = {};
+  if (req.query.categories) {
+    filter = { category: req.query.categories.split(",") };
+  }
+
+  const list = await productModel.find(filter).populate("category");
   if (!list) {
     res.status(500).json({ success: false });
   }
@@ -65,7 +70,7 @@ const createProduct = async (req, res) => {
     priceBuy: req.body.priceBuy,
     priceSell: req.body.priceSell,
     countInStock: req.body.countInStock,
-    isFeatured: req.body.isFeatured
+    isFeatured: req.body.isFeatured,
   });
 
   product = await product.save();
@@ -83,7 +88,6 @@ const updateProduct = async (req, res) => {
   /** delete image in cloudinary */
   await cloudinary.uploader.destroy(product.cloudinary_id);
 
-  
   if (!category) {
     return res.status(400).send("categoria invalida");
   }
@@ -106,7 +110,7 @@ const updateProduct = async (req, res) => {
       category: req.body.category,
       brand: req.body.brand,
       countInStock: req.body.countInStock,
-      isFeatured: req.body.isFeatured
+      isFeatured: req.body.isFeatured,
     },
     { new: true }
   );
@@ -143,14 +147,14 @@ const deleteProduct = async (req, res) => {
 
 const featuredProducts = async (req, res) => {
   const count = req.params.count ? req.params.count : 0;
-  const products = await productModel.find({ isFeatured: true}).limit(+count);
+  const products = await productModel.find({ isFeatured: true }).limit(+count);
 
   if (!products) {
     res.status(500).json({ success: false });
   }
 
   res.send(products);
-}
+};
 
 module.exports = {
   getProducts,
@@ -158,5 +162,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  featuredProducts
+  featuredProducts,
 };
