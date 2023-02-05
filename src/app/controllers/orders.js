@@ -60,12 +60,10 @@ const createOrder = async (req, res) => {
   );
 
   const totalPrice = totalPrices.reduce((a, b) => a + b, 0);
-  console.log(totalPrice);
 
   let order = new orderModel({
     orderItems: orderItemsIdsResolved,
-    shippingAddress1: req.body.shippingAddress1,
-    shippingAddress2: req.body.shippingAddress2,
+    address: req.body.address,
     city: req.body.city,
     zip: req.body.zip,
     phone: req.body.phone,
