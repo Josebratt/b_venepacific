@@ -5,7 +5,7 @@ const orderItemModel = require("../models/order-item");
 const getOrders = async (req, res) => {
   const list = await orderModel
     .find()
-    .populate("user", "names")
+    .populate("user", "firstNames")
     .sort({ createdAt: -1 });
   if (!list) {
     res.status(500).json({ success: false });
@@ -17,7 +17,7 @@ const getOrders = async (req, res) => {
 const getOrder = async (req, res) => {
   const order = await orderModel
     .findById(req.params.id)
-    .populate("user", "names")
+    .populate("user", "firstNames")
     .populate({
       path: "orderItems",
       populate: {
