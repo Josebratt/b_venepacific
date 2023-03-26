@@ -22,6 +22,25 @@ const getProducts = async (req, res) => {
   res.status(200).json(list);
 };
 
+/**
+ * search for products
+ */
+const searchByText = async (req, res) => { 
+  let query = {};
+  if (req.query) {
+    query.name = req.query;
+  }
+  // let query = {"name": new RegExp( req.query["search"])};
+  console.log(query);
+  const product = await productModel.find(query);
+
+  if (!product) {
+    res.status(404).json({ message: "El nombre del producto no se ha encontrado" });
+  }
+
+  res.status(200).send(product);
+}
+
 /** getById */
 const getProduct = async (req, res) => {
   const product = await productModel
@@ -71,6 +90,7 @@ const createProduct = async (req, res) => {
     priceSell: req.body.priceSell,
     countInStock: req.body.countInStock,
     isFeatured: req.body.isFeatured,
+    onSale: req.body.onSale
   });
 
   product = await product.save();
@@ -111,6 +131,7 @@ const updateProduct = async (req, res) => {
       brand: req.body.brand,
       countInStock: req.body.countInStock,
       isFeatured: req.body.isFeatured,
+      onSale: req.body.onSale
     },
     { new: true }
   );
@@ -145,6 +166,11 @@ const deleteProduct = async (req, res) => {
     });
 };
 
+/**
+ * Featured Product
+ * @param {*} req 
+ * @param {*} res 
+ */
 const featuredProducts = async (req, res) => {
   const count = req.params.count ? req.params.count : 0;
   const products = await productModel.find({ isFeatured: true }).limit(+count);
@@ -156,11 +182,29 @@ const featuredProducts = async (req, res) => {
   res.send(products);
 };
 
+/**
+ * On Sale Products
+ * @param {*} req 
+ * @param {*} res 
+ */
+const onSaleProducts = async (req, res) => {
+  const count = req.params.count ? req.params.count : 0;
+  const products = await productModel.find({ onSale: true }).limit(+count);
+
+  if (!products) {
+    res.status(500).json({ success: false });
+  }
+
+  res.send(products);
+};
+
 module.exports = {
+  searchByText,
   getProducts,
   getProduct,
   createProduct,
   updateProduct,
   deleteProduct,
   featuredProducts,
+  onSaleProducts
 };

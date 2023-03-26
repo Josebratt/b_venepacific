@@ -44,6 +44,10 @@ const productSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    onSale: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
